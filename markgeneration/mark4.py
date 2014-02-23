@@ -4,9 +4,9 @@ import numpy as np
 import math
 
 side = 5
-angle = 20
-field = 100
-rnd_point_num = 10
+angle = random.uniform(0, 90)#20
+field = 20
+rnd_point_num = 30
 max_error = 0.0001
 
 def point_dist(p1,p2):
@@ -80,20 +80,29 @@ def add_noize_points(points,rnd_point_num,field):
 	random.shuffle(points)
 	return points
 
-square = generate_square(side,field,angle)
+cnt_good = 0
+for x in xrange(0,50):
+	square = generate_square(side,field,angle)
+	res_square = sorted(square) 
 
-points = add_noize_points(square,rnd_point_num,field)
+	points = add_noize_points(square,rnd_point_num,field)
 
-good_p = check_points(points,max_error)
+	good_p = check_points(points,max_error)
 
-print good_p 
+	res_good = sorted(good_p)
+	print x,res_good == res_square
+	if res_good == res_square:
+		cnt_good = cnt_good + 1
+print '-------'
+print cnt_good
+print '-------'
+
 
 #draw
-all_p = prepare_plot(points)
-good_p = prepare_plot(good_p)
-
-ax = plt.axes()
-ax.axis([0,field,0,field])
-ax.plot(all_p[0],all_p[1],'ro')
-ax.plot(good_p[0],good_p[1],'go')
-plt.show()
+#all_p = prepare_plot(points)
+#good_p = prepare_plot(good_p)
+#ax = plt.axes()
+#ax.axis([0,field,0,field])
+#ax.plot(all_p[0],all_p[1],'ro')
+#ax.plot(good_p[0],good_p[1],'go')
+#plt.show()
